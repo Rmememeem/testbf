@@ -21,10 +21,10 @@ jobs:
         with:
           packages: "platforms;android-34 build-tools;34.0.0"
 
-      - name: Install Gradle 8.4
+      - name: Install Gradle 8.6
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.4
+          gradle-version: 8.6
 
       - name: Build debug APK
         run: gradle assembleDebug
