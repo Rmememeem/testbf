@@ -1,6 +1,7 @@
 package com.example.babyfoot.logic
 
 import kotlin.math.pow
+import kotlin.math.roundToInt
 
 object EloCalculator {
 
