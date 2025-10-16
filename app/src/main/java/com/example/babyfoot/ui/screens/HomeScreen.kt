@@ -103,7 +103,7 @@ private fun WelcomeCard(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
-                text = "Rejoins $playerCount passionnes, enregistre les matchs et laisse l'ELO faire le show.",
+                text = "Rejoins $playerCount joueurs, enregistre les matchs",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -163,6 +163,7 @@ private fun AddPlayerCard(
         }
     }
 }
+
 
 
 
