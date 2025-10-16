@@ -249,34 +249,41 @@ private fun PlayerDropdown(
     val hasOptions = options.isNotEmpty()
 
     Column {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {},
-            label = { Text(label) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(enabled = hasOptions) { expanded = true },
-            readOnly = true,
-            enabled = hasOptions,
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowDropDown,
-                    contentDescription = null
-                )
-            }
-        )
-        DropdownMenu(
-            expanded = expanded && hasOptions,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onValueChange(option)
-                        expanded = false
-                    }
-                )
+        androidx.compose.foundation.layout.Box {
+            OutlinedTextField(
+                value = value,
+                onValueChange = {},
+                label = { Text(label) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        enabled = hasOptions,
+                        indication = null,
+                        interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                    ) { expanded = true },
+                readOnly = true,
+                enabled = hasOptions,
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowDropDown,
+                        contentDescription = null
+                    )
+                }
+            )
+            DropdownMenu(
+                expanded = expanded && hasOptions,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
         if (!hasOptions) {
