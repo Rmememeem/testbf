@@ -22,10 +22,11 @@ android {
         }
 
         buildConfigField(
-            "String",
-            "https://babyfoot-tracker-default-rtdb.europe-west1.firebasedatabase.app/",
-            "\"\""
+        "String",
+        "FIREBASE_DB_URL",
+        "\"https://babyfoot-tracker-default-rtdb.europe-west1.firebasedatabase.app/\""
         )
+
     }
 
     buildTypes {
@@ -61,6 +62,7 @@ android {
 
 dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
+    implementation("com.google.android.material:material:1.11.0")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
