@@ -1,6 +1,5 @@
 package com.example.babyfoot.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,13 +16,16 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -237,6 +239,7 @@ private fun MatchTypeChip(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PlayerDropdown(
     label: String,
@@ -245,36 +248,48 @@ private fun PlayerDropdown(
     onValueChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val hasOptions = options.isNotEmpty()
 
     Column {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {},
-            label = { Text(label) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = true },
-            readOnly = true,
-            trailingIcon = {
-                Icon(
-                    Icons.Rounded.SportsKabaddi,
-                    contentDescription = null
-                )
-            }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
+        ExposedDropdownMenuBox(
+            expanded = expanded && hasOptions,
+            onExpandedChange = { expanded = hasOptions && !expanded }
         ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onValueChange(option)
-                        expanded = false
-                    }
-                )
+            OutlinedTextField(
+                value = value,
+                onValueChange = {},
+                label = { Text(label) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
+                readOnly = true,
+                enabled = hasOptions,
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded && hasOptions)
+                }
+            )
+            ExposedDropdownMenu(
+                expanded = expanded && hasOptions,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            expanded = false
+                        }
+                    )
+                }
             }
+        }
+        if (!hasOptions) {
+            Text(
+                text = "Aucun joueur disponible",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
         }
     }
 }
